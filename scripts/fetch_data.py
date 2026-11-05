@@ -87,8 +87,8 @@ def load_prev():
 def live_from_row(r):
     ltp, close, ycp = pos(r.get("LTP")), pos(r.get("CLOSEP")), pos(r.get("YCP"))
     price = ltp or close or ycp
-    chg = num(r.get("% CHANGE"))
-    if price and ycp and (chg is None or (chg == 0 and price != ycp)):
+    chg = None
+    if price and ycp:
         chg = round((price - ycp) / ycp * 100, 2)
     return {
         "ltp": price,

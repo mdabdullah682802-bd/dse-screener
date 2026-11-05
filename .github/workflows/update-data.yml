@@ -3,7 +3,7 @@ name: Update DSE data
 on:
   schedule:
     # during market hours (Dhaka 10:00-14:30, Sun-Thu): prices every 15 minutes
-    - cron: '*/15 4-8 * * 0-4'
+    - cron: '*/5 4-8 * * 0-4'
     # after market close: full refresh (about 3:30 PM Dhaka time)
     - cron: '30 9 * * 0-4'
   workflow_dispatch:

@@ -106,7 +106,7 @@ export default function App() {
 
   useEffect(() => {
     load();
-    const refresh = setInterval(() => { if (!document.hidden) load(); }, 5 * 60 * 1000);
+    const refresh = setInterval(() => { if (!document.hidden) load(); }, 60 * 1000);
     const tick = setInterval(() => setTick((t) => t + 1), 30 * 1000);
     const vis = () => { if (!document.hidden) load(); };
     document.addEventListener('visibilitychange', vis);
@@ -114,7 +114,7 @@ export default function App() {
   }, [load]);
 
   const meta = data?.meta;
-  const stocks = useMemo(() => (data?.stocks || []).filter(isStrictlyShariah), [data]);
+  const stocks = useMemo(() => (data?.stocks || []).filter(isStrictlyShariah).map((s) => ({ ...s, changePct: s.ltp && s.ycp ? Math.round(((s.ltp - s.ycp) / s.ycp) * 10000) / 100 : null })), [data]);
   const rows = useMemo(() => stocks.map((s) => ({ s, d: derive(s) })), [stocks]);
   const sectors = useMemo(() => [...new Set(stocks.map((s) => s.sector).filter(Boolean))].sort(), [stocks]);
   const counts = useMemo(() => Object.fromEntries(TABS.map((t) => [t.id, rows.filter((r) => t.test(r.d)).length])), [rows]);

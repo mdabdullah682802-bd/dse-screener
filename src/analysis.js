@@ -20,15 +20,15 @@ const f0 = (x) => f(x, 0);
 export function derive(s) {
   const p = s.ltp;
   const fin = s.financials || [];
-  const e0 = fin[0];
-  const e1 = fin[1];
+  const withEps = fin.filter((x) => x.eps != null); const e0 = withEps[0];
+  const e1 = withEps[1];
   const div = s.dividend || {};
   const fv = s.faceValue || 10;
   const week = pct(p, s.closeWeekAgo);
   const month = pct(p, s.closeMonthAgo);
   const m3 = pct(p, s.closeThreeMonthAgo);
   const eps = e0?.eps ?? null;
-  const nav = e0?.nav ?? null;
+  const nav = fin.find((x) => x.nav != null)?.nav ?? null;
   const pe = p && eps && eps > 0 ? p / eps : null;
   const pb = p && nav && nav > 0 ? p / nav : null;
   const dps = div.lastPct != null ? (div.lastPct / 100) * fv : null;
@@ -40,7 +40,7 @@ export function derive(s) {
   const pos52 = s.high52 != null && s.low52 != null && s.high52 > s.low52 && p != null
     ? Math.max(0, Math.min(100, ((p - s.low52) / (s.high52 - s.low52)) * 100)) : null;
   const fromHigh = pct(p, s.high52);
-  const epsPos3 = fin.slice(0, 3).length > 0 && fin.slice(0, 3).every((x) => (x.eps ?? 0) > 0);
+  const epsPos3 = withEps.slice(0, 3).length >= 3 && withEps.slice(0, 3).every((x) => x.eps > 0);
   const healthy = (eps ?? 0) > 0 && (nav ?? 0) > 0;
   const cat = s.category;
   const age = s.listingYear ? new Date().getFullYear() - s.listingYear : null;
@@ -132,7 +132,7 @@ export function healthSummary(s) {
       if (d.epsGrowth != null) t += `, আগের বছরের চেয়ে ${f(Math.abs(d.epsGrowth), 1)}% ${d.epsGrowth >= 0 ? "বেশি" : "কম"}`;
       add(d.epsGrowth != null && d.epsGrowth < -20 ? "warn" : "good", t + "।");
     } else add("warn", `${d.e0.year} সালে শেয়ারপ্রতি আয় (EPS) ঋণাত্মক (৳${f(d.eps)}), অর্থাৎ কোম্পানি ক্ষতিতে ছিল।`);
-    const n = fin.slice(0, 5);
+    const n = fin.filter((x) => x.eps != null).slice(0, 5);
     const posN = n.filter((x) => (x.eps ?? 0) > 0).length;
     if (n.length >= 3) add(posN === n.length ? "good" : posN <= n.length / 2 ? "warn" : "info", `গত ${n.length} বছরের মধ্যে ${posN} বছর লাভজনক।`);
   } else add("info", "আর্থিক ফলাফলের (EPS) তথ্য পাওয়া যায়নি।");
