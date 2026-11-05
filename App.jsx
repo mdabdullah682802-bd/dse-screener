@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import shariah from './src/shariah_codes.json';
+import About from './src/About.jsx';
 import {
   TABS, TAB_HELP, derive, whyFeatured, healthSummary, marketSummary,
   dataStatus, fmtDhaka, agoText, f, sg,
@@ -309,6 +310,7 @@ export default function App() {
       </div>
 
       {/* বিশ্লেষণ মোডাল */}
+      <About meta={meta} />
       {detailRow && (() => {
         const { s } = detailRow;
         const h = healthSummary(s);
