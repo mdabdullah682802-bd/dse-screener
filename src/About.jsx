@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { fmtDhaka } from './analysis.js';
 
 // ===== এখানে নিজের তথ্য বদলান =====
-const DEVELOPER = 'Sk Mahadi Islam';
-const AFFILIATION = 'Department of CSE, DIU'; const CONTACT = ''; // চাইলে ইমেইল বা ফোন লিখুন, ফাঁকা রাখলে দেখাবে না
-const APP_VERSION = '1.1.0';
+const DEVELOPER_NAME = 'Sk. Mahadi Islam';
+const DEPARTMENT = 'Department of CSE';
+const UNIVERSITY = 'DIU';
+const CONTACT = ''; // চাইলে ইমেইল বা ফোন লিখুন, ফাঁকা রাখলে দেখাবে না
+const APP_VERSION = '1.2.0';
 // ====================================
 
 export default function About({ meta }) {
@@ -33,9 +35,11 @@ export default function About({ meta }) {
             <div className="space-y-3 text-xs text-slate-300 leading-relaxed">
               <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
                 <span className="text-emerald-400 font-semibold block mb-1">👨‍💻 ডেভেলপার</span>
-                <p className="text-sm text-slate-100 font-semibold">{DEVELOPER}</p>
-                {CONTACT && <p className="text-slate-400 mt-0.5">{CONTACT}</p>}<p className="text-slate-400 mt-0.5">{AFFILIATION}</p>
-                <p className="text-slate-400 mt-1">এই অ্যাপ এআই-সহায়তায় (ভাইব কোডিং) তৈরি।</p>
+                <p className="text-sm text-slate-100 font-semibold">{DEVELOPER_NAME}</p>
+                <p className="text-slate-300">{DEPARTMENT}</p>
+                <p className="text-slate-300">{UNIVERSITY}</p>
+                {CONTACT && <p className="text-slate-400 mt-0.5">{CONTACT}</p>}
+                <p className="text-[10px] text-slate-500 mt-2">Developed via Vibe Coding</p>
               </div>
 
               <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl">
